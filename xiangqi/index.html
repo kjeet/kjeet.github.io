@@ -113,7 +113,13 @@ function setup() {
     inp = createInput("");
     inp.position(cnv.position().x, S1 * 11);
     inp.size(cnv.size().width);
-    inp.input(() => {boardState = decodeGame(inp.elt.value.slice(2))});
+    inp.input(() => {
+          let b = new URL(inp.elt.value).searchParams.get("b");
+          console.log(b)
+          let urlBoard = (b) ? decodeGame(b) : undefined; 
+          if (urlBoard) urlState.board = urlBoard;
+          boardState = urlState.board.slice();
+    });
     updateUrl();
   
     let button = createButton("copy")
@@ -129,7 +135,7 @@ function setup() {
     button.elt.onclick = () => {
       boardState = urlState.board.slice();
       turn = urlState.turn;
-      move = usrSlate.move.slice();
+      move = urlState.move.slice();
     };
 }
 
