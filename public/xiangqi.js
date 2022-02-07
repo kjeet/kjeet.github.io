@@ -17,7 +17,7 @@
     </style>
 
     <script>
-      //
+//
 // Encoding and Game Constants
 //
 
@@ -77,8 +77,12 @@ function decodeGame(encoded62) {
 }
 
 // Mutable Game State
+var urlState = {
+  board: defaultBoardState.slice(),
+  turn: 1,
+  move: [-1, -1]
+}
 var boardState = defaultBoardState.slice();
-var urlBoardState = undefined;
 var turn = 1;
 var move = [-1, -1];
 
@@ -88,34 +92,44 @@ var grabbed = -1;
 
 function updateUrl() {
     let b = encodeGame(boardState, {base: 91n})
-        let url = new URL(window.location.href);
+    let url = new URL(window.location.href);
     url.search = ""
-        url.searchParams.append("b", b)
-        inp.elt.value = "b=" + b
+    url.searchParams.append("b", b)
+    inp.elt.value = url.toString()
 }
 
 // Scale Factors
 var [S1, S2] = [60, 1.1];
 function setup() {
     let cnv = createCanvas(S1 * 9, S1 * 10);
-    cnv.position((windowWidth - width) / 2, S1 * .5);
+    cnv.center('horizontal')
+    cnv.position(cnv.position().x, S1 * .5);
 
     let b = new URLSearchParams(window.location.search).get("b");
-    if (b) urlBoardState = decodeGame(b);
-    if (urlBoardState) boardState.slice();
+    let urlBoard = (b) ? decodeGame(b) : undefined; 
+    if (urlBoard) urlState.board = urlBoard;
+    boardState = urlState.board.slice();
   
     inp = createInput("");
-    inp.position(S1 * 1, S1 * 11);
-    inp.size(700);
+    inp.position(cnv.position().x, S1 * 11);
+    inp.size(cnv.size().width);
     inp.input(() => {boardState = decodeGame(inp.elt.value.slice(2))});
     updateUrl();
   
     let button = createButton("copy")
-    button.position(S1 * 1, S1 * 11.5)
+    button.position(cnv.position().x, S1 * 11.5)
     button.elt.onclick = () => {
       inp.elt.select();
       document.execCommand("copy");
       window.getSelection().removeAllRanges();
+    };
+  
+    button = createButton("reset")
+    button.position(cnv.position().x + S1, S1 * 11.5)
+    button.elt.onclick = () => {
+      boardState = urlState.board.slice();
+      turn = urlState.turn;
+      move = usrSlate.move.slice();
     };
 }
 
@@ -294,7 +308,7 @@ function drawMove(l1, l2) {
     triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
     pop();
 }
-    </script>  
+</script>  
   </head>
   <body>
     <script src="sketch.js"></script>
