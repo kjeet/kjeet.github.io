@@ -72,13 +72,13 @@ function encodeGame(board) {
     map(n => codex62[n]).reduce((a,b) => a+b);
 }
 function decodeGame(encoded62) {
-  let encoded = [...encoded62].map(n => codex62.indexOf(n))
+  let encoded = [...encoded62].map(n => codex62.indexOf(n));
     return decodeArray(encodeArray(encoded, {base: 62}), {base:91})
 }
 
 // Mutable Game State
 var urlState = {
-board: defaultBoardState.slice(),
+       board: defaultBoardState.slice(),
        turn: 1,
        move: [-1, -1]
 }
@@ -105,14 +105,10 @@ function setup() {
   cnv.center('horizontal');
   cnv.position(cnv.position().x, S1 * .5);
 
-  console.log("A: " + urlState.boardState)
-  console.log(window.location.href)
   let b = new URL(window.location.href).searchParams.get("b");
-  console.log(b)
-  if (b) {console.log("DECODE1"); urlState.boardState = decodeGame(b); console.log("DECODE2"); }
-  console.log("B: " + urlState.boardState)
+  if (b) urlState.board = decodeGame(b);
   boardState = urlState.board.slice();
-
+  
   let div = createDiv('v1.3');
   div.center();
   div.position(div.position().x, S1 * 10.6);
@@ -125,10 +121,9 @@ function setup() {
       let b = new URL(inp.elt.value).searchParams.get("b");
       if (b) boardState = decodeGame(b);
       });
-  console.log("C: " + boardState)
   updateUrl();
 
-  button = createButton("copy")
+  button = createButton("copy");
     button.position(cnv.position().x + 0 * S1, S1 * 11.5)
     button.elt.onclick = () => {
       inp.elt.select();
@@ -136,7 +131,7 @@ function setup() {
       window.getSelection().removeAllRanges();
     };
 
-  button = createButton("paste")
+  button = createButton("paste");
     button.position(cnv.position().x + 1 * S1, S1 * 11.5)
     button.elt.onclick = () => {
       inp.elt.select();
@@ -146,14 +141,13 @@ function setup() {
       window.getSelection().removeAllRanges();
     };
 
-  button = createButton("reset")
+  button = createButton("reset");
     button.position(cnv.position().x + 2 * S1, S1 * 11.5)
     button.elt.onclick = () => {
       boardState = urlState.board.slice();
       turn = urlState.turn;
       move = urlState.move.slice();
     };
-  console.log("X: " + boardState)
 }
 
 //
