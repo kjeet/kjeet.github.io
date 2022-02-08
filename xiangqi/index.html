@@ -105,7 +105,9 @@ function setup() {
   cnv.center('horizontal')
     cnv.position(cnv.position().x, S1 * .5);
 
+  console.log(window.location.href)
   let b = new URL(window.location.href).searchParams.get("b");
+  console.log(b)
   if (b) urlState.boardState = decodeGame(b);
   boardState = urlState.board.slice();
 
