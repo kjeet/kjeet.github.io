@@ -136,9 +136,9 @@ function setup() {
     button.elt.onclick = () => {
       inp.elt.select();
       document.execCommand("paste");
-      var promise = navigator.clipboard.readText()
-        console.log(promise)
-        window.getSelection().removeAllRanges();
+      //var promise = navigator.clipboard.readText()
+      //  console.log(promise)
+      window.getSelection().removeAllRanges();
     };
 
   button = createButton("reset")
