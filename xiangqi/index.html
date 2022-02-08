@@ -105,12 +105,12 @@ function setup() {
   cnv.center('horizontal');
   cnv.position(cnv.position().x, S1 * .5);
 
-  console.log(urlState.boardState)
+  console.log("A: " + urlState.boardState)
   console.log(window.location.href)
   let b = new URL(window.location.href).searchParams.get("b");
   console.log(b)
   if (b) {console.log("DECODE1"); urlState.boardState = decodeGame(b); console.log("DECODE2"); }
-  console.log(urlState.boardState)
+  console.log("B: " + urlState.boardState)
   boardState = urlState.board.slice();
 
   let div = createDiv('v1.3');
@@ -125,6 +125,7 @@ function setup() {
       let b = new URL(inp.elt.value).searchParams.get("b");
       if (b) boardState = decodeGame(b);
       });
+  console.log("C: " + boardState)
   updateUrl();
 
   button = createButton("copy")
@@ -152,6 +153,7 @@ function setup() {
       turn = urlState.turn;
       move = urlState.move.slice();
     };
+  console.log("X: " + boardState)
 }
 
 //
