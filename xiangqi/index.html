@@ -101,7 +101,7 @@ function updateUrl() {
 }
 
 // Scale Factors
-var [S1, S2] = [60, 1.1];
+var [S1, S2] = [80, 1.7];
 
 function setup() {
   let cnv = createCanvas(S1 * (9 + 2), S1 * 10);
@@ -303,7 +303,7 @@ function mouseLocation(r) {
 }
 
 function mousePressed() {
-  let l = mouseLocation(.3);
+  let l = mouseLocation(.4);
   if (l === undefined) return;
 
   grabbed = boardState.findIndex(b => b == l);
